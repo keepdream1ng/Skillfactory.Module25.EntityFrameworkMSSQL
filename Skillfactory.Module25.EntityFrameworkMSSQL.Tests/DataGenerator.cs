@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Skillfactory.Module25.EntityFrameworkMSSQL;
 
-namespace SkillFactory.Module16TestsViaNUnit.Tests
+namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
 {
     public class DataGenerator
     {

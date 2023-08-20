@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Skillfactory.Module25.EntityFrameworkMSSQL; 
 
-namespace SkillFactory.Module16TestsViaNUnit.Tests
+namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
 {
     public static class FakeData
     {
-        public static List<Category> Categories { get; set; }
-        public static List<Author> Authors { get; set; }
-        public static List<User> Users { get; set; }
-        public static List<Book> Books { get; set; }
+        public static List<Category> Categories { get; set; } = new List<Category>();
+        public static List<Author> Authors { get; set; } = new List<Author>();
+        public static List<User> Users { get; set; } = new List<User>();
+        public static List<Book> Books { get; set; } = new List<Book>();
 
         private static DataGenerator _data = new DataGenerator();
         public static void CreateFakeData(int multiplier = 1)
