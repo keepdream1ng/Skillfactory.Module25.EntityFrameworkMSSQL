@@ -10,7 +10,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         public List<Book> BooksBorrowed { get; set; }
     }

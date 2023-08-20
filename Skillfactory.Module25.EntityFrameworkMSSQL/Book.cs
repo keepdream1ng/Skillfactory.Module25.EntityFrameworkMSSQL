@@ -16,7 +16,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL
         /// <summary>
         /// Id of the User, who borrowed this book object.
         /// </summary>
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         /// <summary>
         /// Record of a user, who borrowed book, is null if book is returned to library.
@@ -26,7 +26,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL
         /// <summary>
         /// List of credited Authors.
         /// </summary>
-        public List<Author> AuthorsList { get; set; }
+        public List<Author> Authors { get; set; }
 
         /// <summary>
         /// Id of the book's category.
@@ -40,7 +40,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL
 
         public override string ToString()
         {
-            string Authors = AuthorsList.Count > 1? String.Join(", ", AuthorsList): AuthorsList[0].ToString();
+            string Authors = this.Authors.Count > 1? string.Join(", ", this.Authors): this.Authors[0].ToString();
             return $"{Authors}. {Title}. - {YearOfPublishing}.";
         }
     }
