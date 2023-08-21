@@ -31,7 +31,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL
         /// <summary>
         /// Id of the book's category.
         /// </summary>
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         /// <summary>
         /// Record of the book's category.
