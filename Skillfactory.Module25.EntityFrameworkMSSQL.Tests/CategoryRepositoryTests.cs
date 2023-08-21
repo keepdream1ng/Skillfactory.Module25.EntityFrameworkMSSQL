@@ -83,7 +83,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
         {
             // Arrange.
             CategoryRepository repository = new CategoryRepository(fixture.DbContext);
-            Category expected  = repository.DbContext.Categories.OrderBy(c => c.Id).Last();
+            Category expected  = repository.DbContext.Categories.OrderBy(c => c.Id).FirstOrDefault();
 
             // Act.
             repository.DeleteCategory(expected.Id);

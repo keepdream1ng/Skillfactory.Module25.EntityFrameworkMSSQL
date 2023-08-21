@@ -29,7 +29,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
 
         public int UpdateCategoryName(int categoryId, string categoryNewName)
         {
-            GetCategoryById(categoryId).Name = categoryNewName;
+            DbContext.Categories.SingleOrDefault(c => c.Id == categoryId).Name = categoryNewName;
             return DbContext.SaveChanges();
         }
 
@@ -38,15 +38,14 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
             int result;
             using (var transactionContext = DbContext.Database.BeginTransaction())
             {
-                var query = from book in DbContext.Books
-                            where book.CategoryId == id
-                            select book;
-                foreach (Book book in query.ToList())
+                Category categoryToDelete = DbContext.Categories.SingleOrDefault(c =>c.Id == id);
+                foreach (Book book in categoryToDelete.BooksInCategory)
                 {
                     book.CategoryId = null;
                     book.Category = null;
                 }
-                DbContext.Categories.Remove(GetCategoryById(id));
+                categoryToDelete.BooksInCategory.Clear();
+                DbContext.Categories.Remove(categoryToDelete);
                 result = DbContext.SaveChanges();
                 transactionContext.Commit();
             }
