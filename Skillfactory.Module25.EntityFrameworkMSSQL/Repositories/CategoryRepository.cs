@@ -8,6 +8,10 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
 {
     public class CategoryRepository : BaseRepository
     {
+        public CategoryRepository() : base() { }
+
+        public CategoryRepository(AppContext appContext) : base(appContext) { }
+
         public int CreateCategory(string categoryName)
         {
             DbContext.Categories.Add(new Category { Name = categoryName});
@@ -21,6 +25,12 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
         public List<Category> GetAllCategories()
         {
             return DbContext.Categories.ToList();
+        }
+
+        public int UpdateCategoryName(int categoryId, string categoryNewName)
+        {
+            GetCategoryById(categoryId).Name = categoryNewName;
+            return DbContext.SaveChanges();
         }
 
         public int DeleteCategory(int id)
@@ -41,12 +51,6 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
                 transactionContext.Commit();
             }
             return result;
-        }
-
-        public int UpdateCategoryName(int categoryId, string categoryNewName)
-        {
-            GetCategoryById(categoryId).Name = categoryNewName;
-            return DbContext.SaveChanges();
         }
     }
 }
