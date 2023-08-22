@@ -33,7 +33,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             repository.AddAuthor(testFirsname, testLastname);
             string actual = repository.DbContext.Authors.Where(a => a.FirstName == testFirsname)
                 .Select(a => $"{a.FirstName} {a.LastName}")
-                .FirstOrDefault();
+                .First();
 
             // Assert.
             Assert.Equal(expected, actual);
@@ -44,7 +44,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
         {
             // Arrange.
             AuthorRepository repository = new AuthorRepository(fixture.DbContext);
-            Author expected = repository.DbContext.Authors.OrderBy(a => a.Id).LastOrDefault();
+            Author expected = repository.DbContext.Authors.OrderBy(a => a.Id).Last();
 
             // Act.
             Author actual = repository.GetAuthorById(expected.Id);
@@ -75,13 +75,13 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             string testFirsname = Guid.NewGuid().ToString();
             string testLastname = Guid.NewGuid().ToString();
             string expected = $"{testFirsname} {testLastname}";
-            Author authorToUpdate = repository.DbContext.Authors.OrderBy(a => a.Id).FirstOrDefault();
+            Author authorToUpdate = repository.DbContext.Authors.OrderBy(a => a.Id).First();
 
             // Act.
             repository.UpdateAuthor(authorToUpdate.Id, testFirsname, testLastname);
             string actual = repository.DbContext.Authors.Where(a => a.FirstName == testFirsname)
                 .Select(a => $"{a.FirstName} {a.LastName}")
-                .FirstOrDefault();
+                .First();
 
             // Assert.
             Assert.Equal(expected, actual);
@@ -91,14 +91,14 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
         {
             // Arrange.
             AuthorRepository repository = new AuthorRepository(fixture.DbContext);
-            Author authorToUpdate = repository.DbContext.Authors.OrderBy(a => a.Id).FirstOrDefault();
-            Book bookToUpdate = repository.DbContext.Books.OrderBy(b => b.Id).FirstOrDefault();
+            Author authorToUpdate = repository.DbContext.Authors.OrderBy(a => a.Id).First();
+            Book bookToUpdate = repository.DbContext.Books.OrderBy(b => b.Id).First();
             bool expected = true;
 
             // Act.
             repository.AddBookToAuthor(authorToUpdate.Id, bookToUpdate.Id);
-            bookToUpdate = repository.DbContext.Books.SingleOrDefault(b => b.Id == bookToUpdate.Id);
-            bool actual = repository.DbContext.Authors.SingleOrDefault(a => a.Id == authorToUpdate.Id)
+            bookToUpdate = repository.DbContext.Books.Single(b => b.Id == bookToUpdate.Id);
+            bool actual = repository.DbContext.Authors.Single(a => a.Id == authorToUpdate.Id)
                 .Books.Contains(bookToUpdate);
 
             // Assert.
@@ -110,7 +110,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
         {
             // Arrange.
             AuthorRepository repository = new AuthorRepository(fixture.DbContext);
-            Author expected = repository.DbContext.Authors.OrderByDescending(a => a.Books.Count).FirstOrDefault();
+            Author expected = repository.DbContext.Authors.OrderByDescending(a => a.Books.Count).First();
 
             // Act.
             repository.DeleteAuthor(expected.Id);

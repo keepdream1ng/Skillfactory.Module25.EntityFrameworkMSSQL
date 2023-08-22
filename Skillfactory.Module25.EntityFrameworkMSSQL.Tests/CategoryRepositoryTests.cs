@@ -73,7 +73,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
 
             // Act.
             repository.UpdateCategoryName(testObjectId, expected);
-            string actual = repository.DbContext.Categories.SingleOrDefault(c => c.Id == testObjectId).Name;
+            string actual = repository.DbContext.Categories.Single(c => c.Id == testObjectId).Name;
 
             // Assert.
             Assert.Equal(expected, actual);
@@ -83,7 +83,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
         {
             // Arrange.
             CategoryRepository repository = new CategoryRepository(fixture.DbContext);
-            Category expected  = repository.DbContext.Categories.OrderBy(c => c.Id).FirstOrDefault();
+            Category expected  = repository.DbContext.Categories.OrderBy(c => c.Id).First();
 
             // Act.
             repository.DeleteCategory(expected.Id);

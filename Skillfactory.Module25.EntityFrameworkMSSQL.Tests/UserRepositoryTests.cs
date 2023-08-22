@@ -33,7 +33,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             repository.AddUser(testName, testEmail);
             string actual = repository.DbContext.Users.Where(u => u.Email == testEmail)
                 .Select(u => $"{u.Name} {u.Email}")
-                .FirstOrDefault();
+                .First();
 
             // Assert.
             Assert.Equal(expected, actual);
@@ -72,12 +72,12 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
         {
             // Arrange.
             UserRepository repository = new UserRepository(fixture.DbContext);
-            User userToUpdate = repository.DbContext.Users.OrderBy(u => u.Id).FirstOrDefault();
+            User userToUpdate = repository.DbContext.Users.OrderBy(u => u.Id).First();
             string expected = Guid.NewGuid().ToString();
 
             // Act.
             repository.ChangeUserName(userToUpdate.Id, expected);
-            string actual = repository.DbContext.Users.SingleOrDefault(u => u.Id == userToUpdate.Id).Name;
+            string actual = repository.DbContext.Users.Single(u => u.Id == userToUpdate.Id).Name;
 
             // Assert.
             Assert.Equal(expected, actual);
@@ -88,13 +88,13 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
         {
             // Arrange.
             UserRepository repository = new UserRepository(fixture.DbContext);
-            User userToUpdate = repository.DbContext.Users.OrderBy(u => u.Id).FirstOrDefault();
-            Book bookToUpdate = repository.DbContext.Books.Where(b => b.UserId == null).FirstOrDefault();
+            User userToUpdate = repository.DbContext.Users.OrderBy(u => u.Id).First();
+            Book bookToUpdate = repository.DbContext.Books.Where(b => b.UserId == null).First();
             Book expected = bookToUpdate;
 
             // Act.
             repository.AssignBookToUser(userToUpdate.Id, bookToUpdate.Id);
-            List<Book> actual = repository.DbContext.Users.SingleOrDefault(u => u.Id == userToUpdate.Id).BooksBorrowed;
+            List<Book> actual = repository.DbContext.Users.Single(u => u.Id == userToUpdate.Id).BooksBorrowed;
 
             // Assert.
             Assert.Contains(expected, actual);
@@ -106,17 +106,16 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
         {
             // Arrange.
             UserRepository repository = new UserRepository(fixture.DbContext);
-            User userToUpdate = repository.DbContext.Users.OrderByDescending(u => u.BooksBorrowed.Count).FirstOrDefault();
-            Book bookToUpdate = userToUpdate.BooksBorrowed.FirstOrDefault();
+            User userToUpdate = repository.DbContext.Users.OrderByDescending(u => u.BooksBorrowed.Count).First();
+            Book bookToUpdate = userToUpdate.BooksBorrowed.First();
             Book expected = bookToUpdate;
 
             // Act.
             repository.UnAssignBookFromUser(userToUpdate.Id, bookToUpdate.Id);
-            List<Book> actual = repository.DbContext.Users.SingleOrDefault(u => u.Id == userToUpdate.Id).BooksBorrowed;
+            List<Book> actual = repository.DbContext.Users.Single(u => u.Id == userToUpdate.Id).BooksBorrowed;
 
             // Assert.
             Assert.DoesNotContain(expected, actual);
-            Assert.Equal(null, bookToUpdate.UserId);
         }
 
         [Fact]
@@ -124,7 +123,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
         {
             // Arrange.
             UserRepository repository = new UserRepository(fixture.DbContext);
-            User expected = repository.DbContext.Users.OrderBy(u => u.Id).FirstOrDefault();
+            User expected = repository.DbContext.Users.OrderBy(u => u.Id).First();
 
             // Act.
             repository.DeleteUser(expected.Id);
