@@ -20,6 +20,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             this.fixture = fixture;
         }
 
+        #region CRUD methods tests
         [Fact]
         public void AddBookShouldAddToDatabase()
         {
@@ -113,5 +114,6 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             // Assert.
             Assert.DoesNotContain(expected, actual);
         }
+        #endregion
     }
 }

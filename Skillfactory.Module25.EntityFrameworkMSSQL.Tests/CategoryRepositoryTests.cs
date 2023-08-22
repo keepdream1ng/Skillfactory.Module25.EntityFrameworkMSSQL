@@ -20,6 +20,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             this.fixture = fixture;
         }
 
+        #region CRUD methods tests
         [Fact]
         public void CreateCategoryShouldAddToDatabase()
         {
@@ -91,5 +92,6 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             // Assert.
             Assert.DoesNotContain(expected, repository.DbContext.Categories.ToList());
         }
+        #endregion
     }
 }

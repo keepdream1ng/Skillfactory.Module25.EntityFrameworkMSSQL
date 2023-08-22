@@ -20,6 +20,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             this.fixture = fixture;
         }
 
+        #region CRUD methods tests
         [Fact]
         public void AddAuthorShouldAddToDatabase()
         {
@@ -118,5 +119,6 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             // Assert.
             Assert.DoesNotContain(expected, repository.DbContext.Authors.ToList());
         }
+        #endregion
     }
 }

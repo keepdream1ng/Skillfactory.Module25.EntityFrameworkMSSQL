@@ -11,6 +11,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
         public BookRepository() : base() { }
         public BookRepository(AppContext appContext) : base(appContext) { }
 
+        #region CRUD methods
         public int AddBook(string title, int yearOfPublishing)
         {
             DbContext.Books.Add(new Book { Title = title, YearOfPublishing = yearOfPublishing });
@@ -71,5 +72,6 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
             }
             return result;
         }
+        #endregion
     }
 }

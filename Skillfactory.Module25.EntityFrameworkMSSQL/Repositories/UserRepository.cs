@@ -11,6 +11,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
         public UserRepository() : base() { }
         public UserRepository(AppContext appContext) : base(appContext) { }
 
+        #region CRUD methods
         public int AddUser(string userName, string email)
         {
             DbContext.Users.Add(new User { Name = userName, Email = email });
@@ -69,5 +70,6 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
             }
             return result;
         }
+        #endregion
     }
 }

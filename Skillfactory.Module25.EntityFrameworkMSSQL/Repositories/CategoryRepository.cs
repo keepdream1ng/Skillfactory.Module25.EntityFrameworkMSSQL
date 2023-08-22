@@ -12,6 +12,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
 
         public CategoryRepository(AppContext appContext) : base(appContext) { }
 
+        #region CRUD methods
         public int CreateCategory(string categoryName)
         {
             DbContext.Categories.Add(new Category { Name = categoryName});
@@ -51,5 +52,6 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
             }
             return result;
         }
+        #endregion
     }
 }

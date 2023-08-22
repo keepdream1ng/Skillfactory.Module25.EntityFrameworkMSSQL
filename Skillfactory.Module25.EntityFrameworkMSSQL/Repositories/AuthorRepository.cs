@@ -11,6 +11,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
         public AuthorRepository() : base() { }
         public AuthorRepository(AppContext appContext) : base(appContext) { }
 
+        #region CRUD methods
         public int AddAuthor(string firstName, string lastName)
         {
             DbContext.Authors.Add(new Author {  FirstName = firstName, LastName = lastName });
@@ -63,5 +64,6 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
             }
             return result;
         }
+        #endregion
     }
 }
