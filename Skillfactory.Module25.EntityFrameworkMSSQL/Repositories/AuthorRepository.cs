@@ -29,7 +29,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
 
         public int UpdateAuthor(int authorId, string firstName, string lastName)
         {
-            Author authorToUpdate = DbContext.Authors.SingleOrDefault(a => a.Id == authorId);
+            Author authorToUpdate = GetAuthorById(authorId);
             authorToUpdate.FirstName = firstName;
             authorToUpdate.LastName = lastName;
             return DbContext.SaveChanges();
@@ -37,7 +37,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
 
         public int AddBookToAuthor(int authorId, int bookId)
         {
-            Author authorToUpdate = DbContext.Authors.SingleOrDefault(a => a.Id == authorId);
+            Author authorToUpdate = GetAuthorById(authorId);
             Book bookToUpdate = DbContext.Books.SingleOrDefault(b => b.Id == bookId);
             authorToUpdate.Books.Add(bookToUpdate);
             return DbContext.SaveChanges();
@@ -48,7 +48,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
             int result;
             using (var transactionContext = DbContext.Database.BeginTransaction())
             {
-                Author authorToDelete = DbContext.Authors.SingleOrDefault(a => a.Id == authorId);
+                Author authorToDelete = GetAuthorById(authorId);
                 if (authorToDelete.Books is not null)
                 {
                     foreach (Book book in authorToDelete.Books)
