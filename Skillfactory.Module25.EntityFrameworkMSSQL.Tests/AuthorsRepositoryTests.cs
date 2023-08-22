@@ -1,4 +1,5 @@
-﻿using Skillfactory.Module25.EntityFrameworkMSSQL.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Skillfactory.Module25.EntityFrameworkMSSQL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -119,6 +120,27 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             // Assert.
             Assert.DoesNotContain(expected, repository.DbContext.Authors.ToList());
         }
+        #endregion
+
+        #region Utility methods tests
+
+        [Fact]
+        public void GetBooksCountByAuthorShouldReturnCorrectValue()
+        {
+            // Arrange.
+            AuthorRepository repository = new AuthorRepository(fixture.DbContext);
+            Author authorToCheck = repository.DbContext.Authors.OrderByDescending(a => a.Books.Count()).First();
+            var query = from book in repository.DbContext.Books
+                        where book.Authors.Contains(authorToCheck)
+                        select book;
+            int expected = query.Count();
+            // Act.
+            int actual = repository.GetBooksCountByAuthor(authorToCheck.Id);
+
+            // Assert.
+            Assert.Equal(expected, actual);
+        }
+
         #endregion
     }
 }
