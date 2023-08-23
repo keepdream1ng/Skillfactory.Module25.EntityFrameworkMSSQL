@@ -119,15 +119,15 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
         #region Utility methods tests
 
         [Theory]
-        [InlineData( 1, int.MinValue, int.MaxValue )]
-        [InlineData( null, int.MinValue, int.MaxValue )]
-        [InlineData( 1, null, int.MaxValue )]
-        [InlineData( 1, int.MinValue, null )]
-        [InlineData( 2, 2000, null )]
-        [InlineData( 2, null, 2000 )]
-        [InlineData( 2, null, int.MinValue )]
-        [InlineData( 3, int.MaxValue, null )]
-        [InlineData( int.MinValue, int.MaxValue, int.MinValue )]
+        [InlineData(1, int.MinValue, int.MaxValue)]
+        [InlineData(null, int.MinValue, int.MaxValue)]
+        [InlineData(1, null, int.MaxValue)]
+        [InlineData(1, int.MinValue, null)]
+        [InlineData(2, 2000, null)]
+        [InlineData(2, null, 2000)]
+        [InlineData(2, null, int.MinValue)]
+        [InlineData(3, int.MaxValue, null)]
+        [InlineData(int.MinValue, int.MaxValue, int.MinValue)]
         public void GetBooksByCategoryInYearIntervalFilterOptionallyShouldFilterCorrectly(int? categoryId, int? startYear, int? endYear)
         {
             // Arrange.
@@ -173,15 +173,15 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
         }
 
         [Theory]
-        [InlineData( null, "test", false)]
-        [InlineData( "test", "test", false)]
-        [InlineData( "test", null, false)]
-        [InlineData( null, null, true)]
-        [InlineData( "", null, true)]
-        [InlineData( null, "", true)]
-        [InlineData( "", "", true)]
-        [InlineData( "", "test", false)]
-        [InlineData( "test", "", false)]
+        [InlineData(null, "test", false)]
+        [InlineData("test", "test", false)]
+        [InlineData("test", null, false)]
+        [InlineData(null, null, true)]
+        [InlineData("", null, true)]
+        [InlineData(null, "", true)]
+        [InlineData("", "", true)]
+        [InlineData("", "test", false)]
+        [InlineData("test", "", false)]
         public void CheckLibraryForBookByAuthorsLastnameAndTitleOptionallyShoudReturnCorrectly(string? authorLastname, string? bookTitle, bool expected)
         {
             // Arrange.
@@ -204,6 +204,83 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void IsBookBorrowedShouldReturnCorrectValue()
+        {
+            // Arrange.
+            BookRepository repository = new BookRepository(fixture.DbContext);
+            Book bookToCheck = repository.DbContext.Users.OrderByDescending(u => u.BooksBorrowed.Count).First().BooksBorrowed.First();
+            bool expected = true;
+
+            // Act.
+            bool actual = repository.IsBookBorrowed(bookToCheck.Id);
+
+            // Assert.
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GetNewestBookShouldReturnCorrectObject()
+        {
+            // Arrange.
+            BookRepository repository = new BookRepository(fixture.DbContext);
+            Book expected = new Book { Title = "Testing newest year", YearOfPublishing = 40000 };
+
+            // Act.
+            repository.DbContext.Books.Add(expected);
+            repository.DbContext.SaveChanges();
+            Book actual = repository.GetNewestBook();
+
+            // Assert.
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GetAllBooksOrderedByTitleShouldReturnOrderedList()
+        {
+            // Arrange.
+            BookRepository repository = new BookRepository(fixture.DbContext);
+            bool expected = true;
+
+            // Act.
+            List<Book> orderedList = repository.GetAllBooksOrderedByTitle();
+            // Check every title pair individually, and change actual if its not alphabetical.
+            bool actual = true;
+            for (int i = 0; i < orderedList.Count - 1; i++)
+            {
+                if (StringComparer.Ordinal.Compare(orderedList[i].Title, orderedList[i + 1].Title) > 0)
+                {
+                    actual = false;
+                    break;
+                }
+            }
+
+            // Assert.
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GetAllBooksOrderedByYearFromNewestShouldReturnOrderedList()
+        {
+            // Arrange.
+            BookRepository repository = new BookRepository(fixture.DbContext);
+            bool expected = true;
+
+            // Act.
+            List<Book> orderedList = repository.GetAllBooksOrderedByYearFromNewest();
+            bool actual = true;
+            for (int i = 0; i < orderedList.Count - 1; i++)
+            {
+                if (orderedList[i].YearOfPublishing < orderedList[i + 1].YearOfPublishing)
+                {
+                    actual = false;
+                    break;
+                }
+            }
+
+            // Assert.
+            Assert.Equal(expected, actual);
+        }
         #endregion
     }
 }

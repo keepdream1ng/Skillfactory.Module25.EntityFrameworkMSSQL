@@ -112,6 +112,39 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
             return query.Any();
         }
 
+        // Number 5 in task 25.5.4.
+        public bool IsBookBorrowed(int bookId)
+        {
+            return GetBook(bookId).BorrowedBy is not null;
+        }
+
+        // Number 7 in task 25.5.4.
+        public Book GetNewestBook()
+        {
+            var query = from Book book in DbContext.Books
+                        orderby book.YearOfPublishing descending, book.Id descending
+                        select book;
+            return query.First();
+        }
+
+        // Number 8 in task 25.5.4.
+        public List<Book> GetAllBooksOrderedByTitle()
+        {
+            var query = from Book book in DbContext.Books
+                        orderby book.Title
+                        select book;
+            return query.ToList();
+        }
+
+        // Number 9 in task 25.5.4.
+        public List<Book> GetAllBooksOrderedByYearFromNewest()
+        {
+            var query = from Book book in DbContext.Books
+                        orderby book.YearOfPublishing descending
+                        select book;
+            return query.ToList();
+        }
+
         #endregion
     }
 }

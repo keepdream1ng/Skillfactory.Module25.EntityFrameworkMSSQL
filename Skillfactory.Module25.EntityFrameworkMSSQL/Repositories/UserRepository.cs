@@ -71,5 +71,15 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Repositories
             return result;
         }
         #endregion
+
+        #region Utility methods
+
+        // Number 6 in task 25.5.4.
+        public int GetUserBorrowedBooksCount(int userId)
+        {
+            return GetUser(userId).BooksBorrowed.Count();
+        }
+
+        #endregion
     }
 }

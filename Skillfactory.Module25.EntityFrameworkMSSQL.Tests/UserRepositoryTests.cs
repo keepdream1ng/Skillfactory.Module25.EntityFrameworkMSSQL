@@ -133,5 +133,24 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             Assert.DoesNotContain(expected, actual);
         }
         #endregion
+
+        #region Utility methods tests
+
+        [Fact]
+        public void GetUserBorrowedBooksCountShouldReturnCorrectValue()
+        {
+            // Arrange.
+            UserRepository repository = new UserRepository(fixture.DbContext);
+            User UserToCheck = repository.DbContext.Users.OrderByDescending(u => u.BooksBorrowed.Count).First();
+            int expected = UserToCheck.BooksBorrowed.Count;
+
+            // Act.
+            int actual = repository.GetUserBorrowedBooksCount(UserToCheck.Id);
+
+            // Assert.
+            Assert.Equal(expected, actual);
+        }
+
+        #endregion
     }
 }
