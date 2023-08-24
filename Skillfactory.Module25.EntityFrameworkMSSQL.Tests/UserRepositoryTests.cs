@@ -89,7 +89,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
             // Arrange.
             UserRepository repository = new UserRepository(fixture.DbContext);
             User userToUpdate = repository.DbContext.Users.OrderBy(u => u.Id).First();
-            Book bookToUpdate = repository.DbContext.Books.Where(b => b.UserId == null).First();
+            Book bookToUpdate = repository.DbContext.Books.First(b => b.UserId == null);
             Book expected = bookToUpdate;
 
             // Act.

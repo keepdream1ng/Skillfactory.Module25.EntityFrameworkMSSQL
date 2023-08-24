@@ -31,7 +31,7 @@ namespace Skillfactory.Module25.EntityFrameworkMSSQL.Tests
 
             // Act.
             repository.CreateCategory(newCategoryName);
-            bool actual = repository.DbContext.Categories.Where(c => c.Name == newCategoryName).Any();
+            bool actual = repository.DbContext.Categories.Any(c => c.Name == newCategoryName);
 
             // Assert.
             Assert.Equal(expected, actual);
